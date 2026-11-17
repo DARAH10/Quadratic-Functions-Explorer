@@ -1,0 +1,889 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quadratic Functions Explorer</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 30px;
+      background: #080f1e;
+      color: #e5edf8;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 1800px;
+      margin: auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    h1 {
+      color: #38bdf8;
+      font-size: 36px;
+    }
+
+    header p {
+      color: #a8b6cc;
+    }
+
+    .panel {
+      background: #111d32;
+      border: 1px solid #263957;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 22px;
+    }
+
+    h2 {
+      color: #7dd3fc;
+      margin-top: 0;
+    }
+
+    .placeholder {
+      min-height: 220px;
+      display: grid;
+      place-items: center;
+      border: 1px dashed #476080;
+      border-radius: 10px;
+      color: #a8b6cc;
+    }
+/* Quiz buttons */
+.quiz-button {
+  width: 100%;
+  padding: 14px;
+  text-align: left;
+  cursor: pointer;
+  background: #1e304b;
+  color: #e5edf8;
+  border: 1px solid #385273;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: 0.2s ease;
+}
+
+.quiz-button:hover {
+  background: #294466;
+  border-color: #38bdf8;
+}
+/* Parabola controls layout */
+.adjust-layout {
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 24px;
+  align-items: start;
+}
+
+.slider-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.slider-row {
+  display: grid;
+  grid-template-columns: 190px minmax(100px, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.slider-row label {
+  white-space: nowrap;
+}
+
+.slider-row input {
+  width: 100%;
+}
+
+.example-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.example-buttons button {
+  width: 100%;
+  padding: 13px 16px;
+  text-align: left;
+  cursor: pointer;
+  background: #1e304b;
+  color: #7dd3fc;
+  border: 1px solid #385273;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.example-buttons button:hover {
+  background: #294466;
+  border-color: #38bdf8;
+  color: #ffffff;
+}
+
+@media (max-width: 600px) {
+  .adjust-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .slider-row {
+    grid-template-columns: 170px minmax(80px, 1fr);
+  }
+}
+/* Main two-column layout */
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+  width: 100%;
+}
+
+/* Fixed graph and controls column */
+.left-column {
+  position: sticky;
+  top: 20px;
+  align-self: start;
+  min-width: 0;
+}
+
+/* Scrollable information column */
+.right-column {
+  min-width: 0;
+}
+
+/* Mobile layout */
+@media (max-width: 850px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .left-column {
+    position: static;
+  }
+}
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <header>
+      <h1>Quadratic Functions Explorer</h1>
+      <p>Explore parabolas, vertices and quadratic equations</p>
+    </header>
+
+<div class="workspace">
+  <div class="left-column">
+
+    <section class="panel">
+      <h2>Quadratic Function</h2>
+      <p>Discover how quadratic equations create parabolas.</p>
+     <svg id="graph" viewBox="0 0 700 350"
+     style="width: 100%; height: auto; display: block;"
+     role="img" aria-label="Quadratic function graph">
+
+  <defs>
+  <pattern id="grid" x="15" y="10"
+         width="50" height="30"
+         patternUnits="userSpaceOnUse">
+  <path d="M 50 0 L 0 0 0 30"
+        fill="none" stroke="#263957"
+        stroke-width="1"/>
+</pattern>
+  </defs>
+
+  <rect x="55" y="25" width="620" height="270"
+        fill="url(#grid)"/>
+
+  <line x1="55" y1="160" x2="675" y2="160"
+        stroke="#a8b6cc" stroke-width="2"/>
+
+  <line x1="365" y1="25" x2="365" y2="295"
+        stroke="#a8b6cc" stroke-width="2"/>
+<!-- Subtle axis numbers and tick marks -->
+<g fill="#718096" font-size="11" text-anchor="middle">
+
+  <!-- X-axis tick marks and numbers -->
+  <g stroke="#718096" stroke-width="1">
+    <line x1="65" y1="155" x2="65" y2="165"/>
+    <line x1="115" y1="155" x2="115" y2="165"/>
+    <line x1="165" y1="155" x2="165" y2="165"/>
+    <line x1="215" y1="155" x2="215" y2="165"/>
+    <line x1="265" y1="155" x2="265" y2="165"/>
+    <line x1="315" y1="155" x2="315" y2="165"/>
+    <line x1="415" y1="155" x2="415" y2="165"/>
+    <line x1="465" y1="155" x2="465" y2="165"/>
+    <line x1="515" y1="155" x2="515" y2="165"/>
+    <line x1="565" y1="155" x2="565" y2="165"/>
+    <line x1="615" y1="155" x2="615" y2="165"/>
+    <line x1="665" y1="155" x2="665" y2="165"/>
+  </g>
+
+  <text x="65" y="180">-12</text>
+  <text x="115" y="180">-10</text>
+  <text x="165" y="180">-8</text>
+  <text x="215" y="180">-6</text>
+  <text x="265" y="180">-4</text>
+  <text x="315" y="180">-2</text>
+  <text x="415" y="180">2</text>
+  <text x="465" y="180">4</text>
+  <text x="515" y="180">6</text>
+  <text x="565" y="180">8</text>
+  <text x="615" y="180">10</text>
+  <text x="665" y="180">12</text>
+
+  <!-- Y-axis tick marks -->
+  <g stroke="#718096" stroke-width="1">
+    <line x1="360" y1="40" x2="370" y2="40"/>
+    <line x1="360" y1="70" x2="370" y2="70"/>
+    <line x1="360" y1="100" x2="370" y2="100"/>
+    <line x1="360" y1="130" x2="370" y2="130"/>
+    <line x1="360" y1="190" x2="370" y2="190"/>
+    <line x1="360" y1="220" x2="370" y2="220"/>
+    <line x1="360" y1="250" x2="370" y2="250"/>
+    <line x1="360" y1="280" x2="370" y2="280"/>
+  </g>
+
+  <text x="345" y="44">8</text>
+  <text x="345" y="74">6</text>
+  <text x="345" y="104">4</text>
+  <text x="345" y="134">2</text>
+  <text x="345" y="194">-2</text>
+  <text x="345" y="224">-4</text>
+  <text x="345" y="254">-6</text>
+  <text x="345" y="284">-8</text>
+
+  <!-- Origin -->
+  <text x="378" y="180">0</text>
+</g>
+<polyline
+    id="trajectory"
+    fill="none"
+    stroke="#38bdf8"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"/>
+<line id="symmetryLine"
+      x1="365" y1="25"
+      x2="365" y2="295"
+      stroke="#a78bfa"
+      stroke-width="2"
+      stroke-dasharray="6 5"/>
+ <circle id="vertex" cx="365" cy="160" r="7" fill="#fb923c"/>
+<circle id="zero1" cx="365" cy="160" r="6"
+        fill="#4ade80"/>
+
+<circle id="zero2" cx="365" cy="160" r="6"
+        fill="#4ade80"/>
+<text id="vertexLabel" x="375" y="150"
+      fill="#fb923c" font-size="13">Vertex</text>
+
+</svg>
+<div class="panel">
+  <h2>Adjust the Parabola</h2>
+<p id="equation" style="color: #38bdf8; font-size: 20px;">
+  f(x) = 1(x - 0)² + 0
+</p>
+<div class="adjust-layout">
+
+  <div class="slider-controls">
+
+    <div class="slider-row">
+      <label for="aSlider">
+        Width (a): <span id="aValue">1</span>
+      </label>
+      <input type="range" id="aSlider"
+             min="-3" max="3" step="0.1" value="1">
+    </div>
+
+    <div class="slider-row">
+      <label for="hSlider">
+        Horizontal Position (h): <span id="hValue">0</span>
+      </label>
+      <input type="range" id="hSlider"
+             min="-5" max="5" step="0.5" value="0">
+    </div>
+
+    <div class="slider-row">
+      <label for="kSlider">
+        Vertical Position (k): <span id="kValue">0</span>
+      </label>
+      <input type="range" id="kSlider"
+             min="-5" max="5" step="0.5" value="0">
+    </div>
+
+    <button onclick="resetGraph()"
+            style="background: #38bdf8;
+            color: #080f1e;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;">
+      Reset Graph
+    </button>
+
+  </div>
+
+  <div class="example-buttons">
+
+    <button onclick="setExample(1, 0, 0)">
+      Example 1: Normal
+    </button>
+
+    <button onclick="setExample(-1, 0, 0)">
+      Example 2: Inverted
+    </button>
+
+    <button onclick="setExample(0.5, 0, 0)">
+      Example 3: Wide
+    </button>
+
+  </div>
+
+</div>
+</div>
+<div class="panel">
+  <h2>Standard Form</h2>
+<p id="zerosInfo" style="color: #4ade80;">
+  Zeros: Calculating...
+</p>
+  <p id="standardEquation" style="color: #a78bfa; font-size: 20px;">
+    f(x) = x²
+  </p>
+</div>
+    </section>
+</div>
+<div class="right-column">
+<section class="panel">
+  <h2>Understanding Function Forms</h2>
+
+  <h3 style="color: #38bdf8;">Vertex Form</h3>
+  <p id="vertexForm">f(x) = a(x - h)² + k</p>
+  <p>Vertex Form makes it easy to identify the vertex and axis of symmetry.</p>
+
+  <h3 style="color: #a78bfa;">Standard Form</h3>
+  <p id="standardForm">f(x) = ax² + bx + c</p>
+  <p>Standard Form makes it easier to identify the y-intercept and work with the coefficients.</p>
+</section>
+<section class="panel">
+  <h2>Comparing Vertex Form and Standard Form</h2>
+
+  <p>
+    Both forms represent the same quadratic function,
+    but they show different information about the parabola.
+  </p>
+
+  <h3 style="color: #38bdf8;">Vertex Form</h3>
+  <p style="font-size: 20px;">
+    f(x) = a(x - h)² + k
+  </p>
+  <p>
+    Vertex Form makes it easy to identify the vertex
+    and understand how the parabola moves.
+  </p>
+
+  <h3 style="color: #a78bfa;">Standard Form</h3>
+  <p style="font-size: 20px;">
+    f(x) = ax² + bx + c
+  </p>
+  <p>
+    Standard Form makes it easier to identify
+    the y-intercept and the coefficients.
+  </p>
+
+  <hr>
+
+  <h3 style="color: #34d399;">Example: Same Function, Different Forms</h3>
+
+  <p>Vertex Form:</p>
+  <p style="color: #38bdf8; font-size: 20px;">
+    f(x) = 2(x - 3)² + 4
+  </p>
+
+  <p>Standard Form:</p>
+  <p style="color: #a78bfa; font-size: 20px;">
+    f(x) = 2x² - 12x + 22
+  </p>
+
+  <p style="color: #4ade80;">
+    Both equations describe exactly the same parabola!
+  </p>
+<hr>
+
+<h3 style="color: #38bdf8;">
+  Step-by-Step: Converting Vertex Form to Standard Form
+</h3>
+
+<p>Start with Vertex Form:</p>
+
+<p style="color: #38bdf8; font-size: 20px;">
+  f(x) = 2(x - 3)² + 4
+</p>
+
+<p><strong>Step 1:</strong> Expand the squared expression.</p>
+
+<p style="color: #38bdf8;">
+  f(x) = 2(x² - 6x + 9) + 4
+</p>
+
+<p><strong>Step 2:</strong> Distribute the value of a.</p>
+
+<p style="color: #38bdf8;">
+  f(x) = 2x² - 12x + 18 + 4
+</p>
+
+<p><strong>Step 3:</strong> Combine the constant terms.</p>
+
+<p style="color: #38bdf8; font-size: 20px;">
+  f(x) = 2x² - 12x + 22
+</p>
+
+<p style="color: #4ade80;">
+  Final Answer: Standard Form!
+</p>
+
+<hr>
+
+<h3 style="color: #a78bfa;">
+  Step-by-Step: Converting Standard Form to Vertex Form
+</h3>
+
+<p>Start with Standard Form:</p>
+
+<p style="color: #a78bfa; font-size: 20px;">
+  f(x) = 2x² - 12x + 22
+</p>
+
+<p><strong>Step 1:</strong> Factor out the coefficient of x² from the first two terms.</p>
+
+<p style="color: #a78bfa;">
+  f(x) = 2(x² - 6x) + 22
+</p>
+
+<p><strong>Step 2:</strong> Complete the square by adding and subtracting 9 inside the parentheses.</p>
+
+<p style="color: #a78bfa;">
+  f(x) = 2(x² - 6x + 9 - 9) + 22
+</p>
+
+<p><strong>Step 3:</strong> Rewrite the perfect square trinomial.</p>
+
+<p style="color: #a78bfa;">
+  f(x) = 2((x - 3)² - 9) + 22
+</p>
+
+<p><strong>Step 4:</strong> Distribute and simplify.</p>
+
+<p style="color: #a78bfa; font-size: 20px;">
+  f(x) = 2(x - 3)² + 4
+</p>
+
+<p style="color: #4ade80;">
+  Final Answer: Vertex Form!
+</p>
+
+<hr>
+
+<h3 style="color: #38bdf8;">Practice: Test Your Knowledge!</h3>
+
+<p>Try these questions to test your understanding of quadratic function forms.</p>
+
+<h3>Question 1: Vertex Form to Standard Form</h3>
+
+<p>Convert the following equation:</p>
+
+<p style="color: #38bdf8; font-size: 20px;">
+  f(x) = (x - 2)² + 3
+</p>
+
+<div style="display: flex; flex-direction: column; gap: 10px;">
+
+  <button class="quiz-button" onclick="checkConversionAnswer('q1', 'A')">
+    A. f(x) = x² - 4x + 7
+  </button>
+
+  <button class="quiz-button" onclick="checkConversionAnswer('q1', 'B')">
+    B. f(x) = x² + 4x + 7
+  </button>
+
+  <button class="quiz-button" onclick="checkConversionAnswer('q1', 'C')">
+    C. f(x) = x² - 2x + 3
+  </button>
+
+</div>
+
+<p id="conversionFeedback1"></p>
+
+<hr>
+
+<h3>Question 2: Standard Form to Vertex Form</h3>
+
+<p>Convert the following equation:</p>
+
+<p style="color: #a78bfa; font-size: 20px;">
+  f(x) = x² + 6x + 5
+</p>
+
+<div style="display: flex; flex-direction: column; gap: 10px;">
+
+  <button class="quiz-button" onclick="checkConversionAnswer('q2', 'A')">
+    A. f(x) = (x + 3)² - 4
+  </button>
+
+  <button class="quiz-button" onclick="checkConversionAnswer('q2', 'B')">
+    B. f(x) = (x - 3)² - 4
+  </button>
+
+  <button class="quiz-button" onclick="checkConversionAnswer('q2', 'C')">
+    C. f(x) = (x + 6)² + 5
+  </button>
+
+</div>
+
+<p id="conversionFeedback2"></p>
+
+</section>
+
+  <section class="panel">
+  <h2>How Do a, h and k Affect the Graph?</h2>
+
+  <h3 style="color: #38bdf8;">The value of a</h3>
+  <p id="aExplanation">
+    Controls the direction and width of the parabola.
+  </p>
+
+  <h3 style="color: #a78bfa;">The value of h</h3>
+  <p>Moves the parabola left or right.</p>
+
+  <h3 style="color: #34d399;">The value of k</h3>
+  <p>Moves the parabola up or down.</p>
+
+  <hr>
+
+  
+<h3 style="color: #38bdf8;">Important Features of a Parabola</h3>
+
+<p id="vertexInfo">Vertex: (0, 0)</p>
+<p style="color: #a8b6cc;">
+  The vertex is the highest or lowest point of the parabola.
+</p>
+
+<p id="axisInfo">Axis of Symmetry: x = 0</p>
+<p style="color: #a8b6cc;">
+  The axis of symmetry is the vertical line that divides the parabola into two equal halves.
+</p>
+
+<p id="openingInfo">Opening: Upward</p>
+<p style="color: #a8b6cc;">
+  The opening tells us whether the parabola curves upward or downward.
+</p>
+
+<h3 style="color: #34d399;">Zeros (x-intercepts)</h3>
+<p style="color: #a8b6cc;">
+  Zeros are the x-values where the graph crosses or touches the x-axis. At these points, f(x) = 0.
+</p>
+
+</section>
+
+  
+ 
+<section class="panel">
+  <h2>Test Your Knowledge!</h2>
+<p>Answer the question and check how well you understand quadratic functions.</p>
+
+<hr>
+
+<h3 style="color: #38bdf8;">Question 1: Understanding the Value of a</h3>
+<p>What happens when the value of a is negative?</p>
+
+<button class="quiz-button" onclick="checkAnswer(1)">(A) The parabola opens upward</button>
+<button class="quiz-button" onclick="checkAnswer(2)">(B) The parabola opens downward</button>
+<button class="quiz-button" onclick="checkAnswer(3)">(C) The parabola becomes a straight line</button>
+
+<p id="quizFeedback"></p>
+<h3 style="color: #38bdf8;">Question 2: Finding the Vertex</h3>
+<p>For the function f(x) = 2(x - 3)² + 4, what is the vertex?</p>
+
+<button class="quiz-button" onclick="checkFinalQuiz('q2', 'A')">(A) (3, 4)</button>
+<button class="quiz-button" onclick="checkFinalQuiz('q2', 'B')">(B) (-3, 4)</button>
+<button class="quiz-button" onclick="checkFinalQuiz('q2', 'C')">(C) (3, -4)</button>
+<p id="finalQuizFeedback2"></p>
+
+<hr>
+
+<h3 style="color: #38bdf8;">Question 3: Axis of Symmetry</h3>
+<p>For the function f(x) = 2(x - 3)² + 4, what is the axis of symmetry?</p>
+
+<button class="quiz-button" onclick="checkFinalQuiz('q3', 'A')">(A) x = -3</button>
+<button class="quiz-button" onclick="checkFinalQuiz('q3', 'B')">(B) x = 3</button>
+<button class="quiz-button" onclick="checkFinalQuiz('q3', 'C')">(C) y = 3</button>
+<p id="finalQuizFeedback3"></p>
+
+<hr>
+
+<h3 style="color: #38bdf8;">Question 4: Understanding k</h3>
+<p>In vertex form f(x) = a(x - h)² + k, what does k control?</p>
+
+<button class="quiz-button" onclick="checkFinalQuiz('q4', 'A')">(A) The horizontal shift</button>
+<button class="quiz-button" onclick="checkFinalQuiz('q4', 'B')">(B) The width of the parabola</button>
+<button class="quiz-button" onclick="checkFinalQuiz('q4', 'C')">(C) The vertical shift</button>
+<p id="finalQuizFeedback4"></p>
+</section>
+</div>
+</div>
+
+</div>
+
+<script>
+const graph = document.getElementById("graph");
+const aSlider = document.getElementById("aSlider");
+const hSlider = document.getElementById("hSlider");
+const kSlider = document.getElementById("kSlider");
+
+function updateGraph() {
+  const a = Number(aSlider.value);
+  const h = Number(hSlider.value);
+  const k = Number(kSlider.value);
+document.getElementById("aValue").textContent = a;
+const aExplanation = document.getElementById("aExplanation");
+
+if (a > 0) {
+  aExplanation.textContent =
+    "The parabola opens upward.";
+} else if (a < 0) {
+  aExplanation.textContent =
+    "The parabola opens downward.";
+} else {
+  aExplanation.textContent =
+    "When a = 0, the graph is no longer a parabola.";
+}
+document.getElementById("hValue").textContent = h;
+document.getElementById("kValue").textContent = k;
+const equation = document.getElementById("equation");
+
+equation.textContent =
+  `f(x) = ${a.toFixed(2)}(x - ${h.toFixed(2)})² + ${k.toFixed(2)}`;
+const b = -2 * a * h;
+const c = a * h * h + k;
+
+const standardEquation =
+  document.getElementById("standardEquation");
+
+standardEquation.textContent =
+  `f(x) = ${a.toFixed(2)}x² + (${b.toFixed(2)})x + (${c.toFixed(2)})`;
+document.getElementById("vertexForm").textContent =
+  `f(x) = ${a}(x - ${h})² + ${k}`;
+
+document.getElementById("standardForm").textContent =
+  `f(x) = ${a.toFixed(2)}x² + (${b.toFixed(2)})x + (${c.toFixed(2)})`;
+  const points = [];
+
+for (let x = -12.4; x <= 12.4; x += 0.1) {
+  const y = a * Math.pow(x - h, 2) + k;
+
+  const svgX = 365 + x * 25;
+  const svgY = 160 - y * 15;
+
+  if (svgY >= 25 && svgY <= 295) {
+    points.push(`${svgX},${svgY}`);
+  }
+}
+const vertex = document.getElementById("vertex");
+
+vertex.setAttribute("cx", 365 + h * 25);
+vertex.setAttribute("cy", 160 - k * 15);
+const symmetryLine = document.getElementById("symmetryLine");
+
+symmetryLine.setAttribute("x1", 365 + h * 25);
+symmetryLine.setAttribute("x2", 365 + h * 25);
+document.getElementById("vertexInfo").textContent =
+  `Vertex: (${h.toFixed(2)}, ${k.toFixed(2)})`;
+
+document.getElementById("axisInfo").textContent =
+  `Axis of Symmetry: x = ${h}`;
+
+let opening = "Upward";
+
+if (a < 0) {
+  opening = "Downward";
+} else if (a === 0) {
+  opening = "No parabola";
+}
+
+document.getElementById("openingInfo").textContent =
+  `Opening: ${opening}`;
+const zero1 = document.getElementById("zero1");
+const zero2 = document.getElementById("zero2");
+
+zero1.style.display = "none";
+zero2.style.display = "none";
+
+const zerosInfo = document.getElementById("zerosInfo");
+
+if (Math.abs(a) < 0.000000001) {
+
+  if (Math.abs(k) < 0.000000001) {
+    zerosInfo.textContent = "Zeros: All real numbers";
+  } else {
+    zerosInfo.textContent = "Zeros: No real x-intercepts";
+  }
+
+} else {
+
+  const value = -k / a;
+
+  if (value < -0.000000001) {
+
+    zerosInfo.textContent = "Zeros: No real x-intercepts";
+
+  } else if (Math.abs(value) < 0.000000001) {
+
+    const x = h;
+
+    zero1.setAttribute("cx", 365 + x * 25);
+    zero1.setAttribute("cy", 160);
+    zero1.style.display = "block";
+
+    zerosInfo.textContent =
+      `Zeros: One x-intercept (${x.toFixed(2)}, 0)`;
+
+  } else {
+
+    const distance = Math.sqrt(value);
+    const x1 = h - distance;
+    const x2 = h + distance;
+
+    zero1.setAttribute("cx", 365 + x1 * 25);
+    zero1.setAttribute("cy", 160);
+
+    zero2.setAttribute("cx", 365 + x2 * 25);
+    zero2.setAttribute("cy", 160);
+
+    zero1.style.display = "block";
+    zero2.style.display = "block";
+
+    zerosInfo.textContent =
+      `Zeros: (${x1.toFixed(2)}, 0) and (${x2.toFixed(2)}, 0)`;
+  }
+}const vertexLabel = document.getElementById("vertexLabel");
+
+let labelX = 375 + h * 25;
+let labelY = 150 - k * 15;
+
+if (labelX > 610) {
+  labelX = labelX - 85;
+}
+
+if (labelY < 45) {
+  labelY = labelY + 25;
+}
+
+if (labelY > 280) {
+  labelY = labelY - 25;
+}
+
+vertexLabel.setAttribute("x", labelX);
+vertexLabel.setAttribute("y", labelY);
+  const path = document.getElementById("trajectory");
+
+  path.setAttribute(
+    "points",
+    points.join(" ")
+  );
+}
+function resetGraph() {
+  aSlider.value = 1;
+  hSlider.value = 0;
+  kSlider.value = 0;
+
+  updateGraph();
+}
+function checkAnswer(answer) {
+  const feedback = document.getElementById("quizFeedback");
+
+  if (answer === 2) {
+    feedback.textContent = "Correct! A negative value of a makes the parabola open downward.";
+    feedback.style.color = "#4ade80";
+  } else {
+    feedback.textContent = "Not quite! Try again. Remember what the value of a controls.";
+    feedback.style.color = "#fb923c";
+  }
+}
+
+function checkConversionAnswer(question, answer) {
+
+  let feedback;
+
+  if (question === "q1") {
+    feedback = document.getElementById("conversionFeedback1");
+
+    if (answer === "A") {
+      feedback.textContent = "Correct! (x - 2)² + 3 = x² - 4x + 7.";
+      feedback.style.color = "#4ade80";
+    } else {
+      feedback.textContent = "Not quite! Remember to expand the squared expression first.";
+      feedback.style.color = "#fb923c";
+    }
+  }
+
+  if (question === "q2") {
+    feedback = document.getElementById("conversionFeedback2");
+
+    if (answer === "A") {
+      feedback.textContent = "Correct! Completing the square gives (x + 3)² - 4.";
+      feedback.style.color = "#4ade80";
+    } else {
+      feedback.textContent = "Not quite! Try completing the square.";
+      feedback.style.color = "#fb923c";
+    }
+  }
+}
+function checkFinalQuiz(question, answer) {
+  const correctAnswers = {
+    q2: "A",
+    q3: "B",
+    q4: "C"
+  };
+
+  const feedbackIds = {
+    q2: "finalQuizFeedback2",
+    q3: "finalQuizFeedback3",
+    q4: "finalQuizFeedback4"
+  };
+
+  const feedback = document.getElementById(feedbackIds[question]);
+
+  if (answer === correctAnswers[question]) {
+    feedback.textContent = "Correct! Well done!";
+    feedback.style.color = "#34d399";
+  } else {
+    feedback.textContent = "Not quite. Try again!";
+    feedback.style.color = "#f87171";
+  }
+}
+function setExample(a, h, k) {
+  aSlider.value = a;
+  hSlider.value = h;
+  kSlider.value = k;
+
+  updateGraph();
+}
+aSlider.addEventListener("input", updateGraph);
+hSlider.addEventListener("input", updateGraph);
+kSlider.addEventListener("input", updateGraph);
+
+updateGraph();
+</script>
+</body>
+</html>
